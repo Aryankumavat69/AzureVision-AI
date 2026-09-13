@@ -31,7 +31,9 @@ def home():
 @app.get("/health")
 def health_check():
     return {
-        "status": "healthy"
+        "status": "healthy",
+        "service": "AzureVision-AI",
+        "version": "1.0.0"
     }
 
 
