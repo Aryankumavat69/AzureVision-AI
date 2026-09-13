@@ -1,36 +1,106 @@
-from transformers import pipeline
 from PIL import Image
+from transformers import AutoImageProcessor
+from optimum.onnxruntime import ORTModelForImageClassification
+import numpy as np
 
 
-print("Loading AI image analysis model...")
+print("Loading lightweight ONNX image analysis model...")
 
-image_classifier = pipeline(
-    "image-classification",
-    model="google/vit-base-patch16-224"
+
+MODEL_ID = "google/vit-base-patch16-224"
+
+
+processor = AutoImageProcessor.from_pretrained(
+    MODEL_ID
 )
 
-print("AI model loaded successfully!")
+
+model = ORTModelForImageClassification.from_pretrained(
+    MODEL_ID,
+    export=True
+)
+
+
+print("ONNX AI model loaded successfully!")
 
 
 def analyze_image(image_path: str):
     """
-    Analyze an image and return the most likely
+    Analyze an image and return the top 5
     visual categories with confidence scores.
     """
 
-    image = Image.open(image_path).convert("RGB")
+    image = Image.open(
+        image_path
+    ).convert("RGB")
 
-    predictions = image_classifier(image)
+
+    inputs = processor(
+        images=image,
+        return_tensors="np"
+    )
+
+
+    outputs = model(
+        **inputs
+    )
+
+
+    logits = np.asarray(
+        outputs.logits
+    )
+
+
+    # Convert logits to probabilities
+    exp_logits = np.exp(
+        logits
+        - np.max(
+            logits,
+            axis=-1,
+            keepdims=True
+        )
+    )
+
+
+    probabilities = (
+        exp_logits
+        / np.sum(
+            exp_logits,
+            axis=-1,
+            keepdims=True
+        )
+    )
+
+
+    # Get indexes of top 5 predictions
+    top_indices = np.argsort(
+        probabilities[0]
+    )[-5:][::-1]
+
 
     results = []
 
-    for prediction in predictions[:5]:
+
+    for index in top_indices:
+
+        label = model.config.id2label[
+            int(index)
+        ]
+
+
+        confidence = (
+            probabilities[0][index]
+            * 100
+        )
+
+
         results.append({
-            "label": prediction["label"],
+            "label": label,
             "confidence": round(
-                prediction["score"] * 100,
+                float(confidence),
                 2
             )
         })
+
 
     return results

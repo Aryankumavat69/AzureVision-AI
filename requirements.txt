@@ -1,8 +1,7 @@
-﻿--extra-index-url https://download.pytorch.org/whl/cpu
-fastapi
+﻿fastapi
 uvicorn
 python-multipart
 pillow
+numpy
 transformers
-torch
-torchvision
+optimum-onnx[onnxruntime]
