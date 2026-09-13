@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AzureVision-AI</title>
+
+    <link rel="stylesheet"
+          href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <div class="logo">
+                <span>◈</span>
+                AzureVision-AI
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                AI System Online
+            </div>
+
+        </header>
+
+
+        <main>
+
+            <section class="hero">
+
+                <p class="tag">
+                    AI • COMPUTER VISION • FASTAPI
+                </p>
+
+                <h1>
+                    Intelligent
+                    <span>Image Analysis</span>
+                </h1>
+
+                <p class="description">
+                    Upload an image and let an AI vision model
+                    analyze its visual content and generate
+                    prediction confidence scores.
+                </p>
+
+            </section>
+
+
+            <section class="upload-card">
+
+                <div id="dropArea" class="drop-area">
+
+                    <div class="upload-icon">
+                        ↑
+                    </div>
+
+                    <h2>
+                        Upload an image
+                    </h2>
+
+                    <p>
+                        Drag & drop your image here
+                        or choose a file
+                    </p>
+
+                    <input
+                        type="file"
+                        id="fileInput"
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                    >
+
+                    <button
+                        id="chooseButton"
+                        class="choose-button">
+
+                        Choose Image
+
+                    </button>
+
+                    <small>
+                        JPG, PNG or WEBP
+                    </small>
+
+                </div>
+
+
+                <div
+                    id="previewContainer"
+                    class="preview-container hidden">
+
+                    <img
+                        id="imagePreview"
+                        alt="Selected image">
+
+                    <div class="file-info">
+
+                        <span id="fileName">
+                            image.jpg
+                        </span>
+
+                        <button
+                            id="removeButton"
+                            class="remove-button">
+
+                            Remove
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="analyzeButton"
+                    class="analyze-button hidden">
+
+                    Analyze Image
+
+                </button>
+
+
+                <div
+                    id="loading"
+                    class="loading hidden">
+
+                    <div class="spinner"></div>
+
+                    <p>
+                        AI is analyzing your image...
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="results"
+                class="results hidden">
+
+                <div class="results-header">
+
+                    <div>
+
+                        <p class="tag">
+                            AI ANALYSIS COMPLETE
+                        </p>
+
+                        <h2>
+                            Prediction Results
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div id="predictionList">
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <footer>
+
+            <p>
+                AzureVision-AI • Powered by
+                FastAPI + Hugging Face Transformers
+            </p>
+
+        </footer>
+
+    </div>
+
+
+    <script src="/static/script.js"></script>
+
+</body>
+
+</html>
